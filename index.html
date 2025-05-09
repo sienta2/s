@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Terminal Mac OS & Internet (Slow Loading)</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: "Courier New", monospace;
+      text-align: left;
+      padding: 20px;
+      font-size: 1.2em;
+    }
+    .screen {
+      width: 800px;
+      height: 500px;
+      border: 2px solid white;
+      padding: 20px;
+      box-shadow: 0 0 15px white;
+      overflow: auto;
+      filter: blur(1.2px) contrast(0.8);
+    }
+    .output {
+      white-space: pre-wrap;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+  <script>
+    function startDialUp() {
+      document.getElementById("bootScreen").style.display = "none";
+      document.getElementById("dialUpScreen").style.display = "block";
+
+      setTimeout(() => {
+        document.getElementById("internetLoading").classList.remove("hidden");
+        setTimeout(enableSearch, 10000); // 10秒後に検索フォームを表示
+      }, 3000);
+    }
+
+    function enableSearch() {
+      document.getElementById("searchSection").classList.remove("hidden");
+    }
+
+    function searchBing() {
+      const query = document.getElementById("query").value;
+      setTimeout(() => {
+        document.getElementById("resultFrame").src = "https://www.bing.com/search?q=" + encodeURIComponent(query) + "&count=10";
+      }, 5000);
+    }
+
+    setTimeout(startDialUp, 5000); // 5秒間の起動画面表示後にダイヤルアップ開始
+  </script>
+</head>
+<body>
+
+  <div id="bootScreen" class="screen">
+    <h1>Mac OS Terminal</h1>
+    <p>Starting up...</p>
+    <p>Loading system...</p>
+    <p>Executing boot sequence...</p>
+    <p>Kernel initialized...</p>
+  </div>
+
+  <div id="dialUpScreen" class="screen hidden">
+    <h1>ダイヤルアップ接続中...</h1>
+    <p>モデム初期化中...</p>
+    <p>接続試行中...</p>
+    <p>ISP認証中...</p>
+    <p><span id="internetLoading" class="hidden">インターネット読み込み中...</span></p>
+
+    <audio autoplay>
+      <source src="aaa.wav" type="audio/wav">
+      Your browser does not support the audio element.
+    </audio>
+
+    <div id="searchSection" class="hidden">
+      <label for="query">検索ワードを入力:</label>
+      <input type="text" id="query" name="q" placeholder="検索ワードを入力">
+      <button onclick="searchBing()">検索</button>
+      <br><br>
+      <iframe id="resultFrame" style="width:800px; height:400px; border: 1px solid white;"></iframe>
+    </div>
+  </div>
+
+</body>
+</html>
